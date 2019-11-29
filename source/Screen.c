@@ -22,6 +22,25 @@ create_new_screen(int width, int height)
 }
 
 void
+clean_screen(Screen_t screen)
+{
+    int width = screen->width;
+    int height = screen->height;
+
+    int num_pixels = width * height;
+    for (int i = 0; i < num_pixels; i++)
+        screen->pixels[i].form = " ";
+
+}
+
+void
+delete_screen(Screen_t screen)
+{
+    free(screen->pixels);
+    free(screen);
+}
+
+void
 print_screen(Screen_t screen)
 {
     int width = screen->width;

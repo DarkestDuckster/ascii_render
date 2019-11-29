@@ -22,11 +22,10 @@ create_new_scene(void)
 {
     struct _scene_struct *new_scene = malloc(sizeof(*new_scene));
     new_scene->current_num_objects = 0;
+    new_scene->current_objects = NULL;
 
     return new_scene;
 }
-
-#include <stdio.h>
 
 void
 resize_scene_objects(Scene_t scene, int new_size)
@@ -86,3 +85,11 @@ render_scene_onto_screen(Scene_t scene, Screen_t screen)
     }
 }
 
+
+void
+delete_scene(Scene_t scene)
+{
+    if (scene->current_objects == NULL)
+        free(scene->current_objects);
+    free(scene);
+}

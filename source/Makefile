@@ -7,7 +7,7 @@ LDIR =../lib
 
 EXE = Renderer.exe
 
-LIBS=
+LIBS= -lm
 
 _DEPS = Vector.h Screen.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
