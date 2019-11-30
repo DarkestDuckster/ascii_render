@@ -7,7 +7,7 @@ typedef int (*check_vector_function) (Vector_t, void*);
 typedef struct _scene_object {
     check_vector_function check_function;
     void *object_vectorer;
-    const char *material;
+    char material;
 
 } SceneObject;
 
@@ -52,11 +52,11 @@ add_triangle_to_scene(Scene_t scene, Triangle_t triangle)
 
     new_object->check_function = (check_vector_function) is_vector_in_triangle;
     new_object->object_vectorer = triangle;
-    new_object->material = "T";
+    new_object->material = 'T';
 
 }
 
-const char*
+const char
 get_vector_render(Scene_t scene, int x, int y)
 {
     Vector_t vector = create_new_vector(x, y, 0);
@@ -68,6 +68,7 @@ get_vector_render(Scene_t scene, int x, int y)
     }
 
     delete_vector(vector);
+    return ' ';
 }
 
 void
@@ -78,9 +79,8 @@ render_scene_onto_screen(Scene_t scene, Screen_t screen)
 
     for (int i = 0; i < height; i++) {
         for(int j = 0; j < width; j++) {
-            const char *render_value = get_vector_render(scene, j, i);
-            if (render_value != NULL)
-                screen->pixels[i * width + j].form = render_value;
+            const char render_value = get_vector_render(scene, j, i);
+            screen->pixels[i * width + j].texture = render_value;
         }
     }
 }

@@ -1,6 +1,8 @@
-IDIR =../include
+IDIR =include
 CC=gcc
 CFLAGS=-I$(IDIR)
+
+SRCDIR=src
 
 ODIR=obj
 LDIR =../lib
@@ -16,11 +18,11 @@ _OBJ = Vector.o Screen.o Rasterizer.o Triangle.o Scene.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
-$(ODIR)/%.o: %.c $(IDIR)/%.h
+$(ODIR)/%.o: $(SRCDIR)/%.c $(IDIR)/%.h
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(EXE): $(OBJ) main.c
-	$(CC) -c -o $(ODIR)/main.o main.c $(CFLAGS)
+$(EXE): $(OBJ) $(SRCDIR)/main.c
+	$(CC) -c -o $(ODIR)/main.o $(SRCDIR)/main.c $(CFLAGS)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean

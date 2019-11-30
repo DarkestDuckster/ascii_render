@@ -22,7 +22,7 @@ int main(void)
     add_triangle_to_scene(scene, triangle);
 
     render_scene_onto_screen(scene, screen);
-    add_sceen_border(screen, "\xE2\x98\x85");
+    add_sceen_border(screen);
 
     print_screen(screen);
 
@@ -33,7 +33,7 @@ int main(void)
         clean_screen(screen);
 
         render_scene_onto_screen(scene, screen);
-        add_sceen_border(screen, "\xE2\x98\x85");
+        add_sceen_border(screen);
 
         print_screen(screen);
     }

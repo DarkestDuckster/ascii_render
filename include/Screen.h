@@ -2,7 +2,7 @@
 
 typedef struct _pixel {
     float r, g, b;
-    const char *form;
+    char texture;
 } Pixel;
 
 typedef struct _screen {

@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const char CLEAR_CHAR = ' ';
+
 Screen_t
 create_new_screen(int width, int height)
 {
@@ -15,7 +17,7 @@ create_new_screen(int width, int height)
         new_screen->pixels[i].r = 0;
         new_screen->pixels[i].g = 0;
         new_screen->pixels[i].b = 0;
-        new_screen->pixels[i].form = " ";
+        new_screen->pixels[i].texture = CLEAR_CHAR;
     }
 
     return new_screen;
@@ -29,7 +31,7 @@ clean_screen(Screen_t screen)
 
     int num_pixels = width * height;
     for (int i = 0; i < num_pixels; i++)
-        screen->pixels[i].form = " ";
+        screen->pixels[i].texture = CLEAR_CHAR;
 
 }
 
@@ -52,7 +54,7 @@ print_screen(Screen_t screen)
     for (int i = 0; i < height; i++) {
         printf("%02d: | ", i+1);
         for (int j = 0; j < width; j++) {
-            printf("%s", screen->pixels[i * width + j].form); 
+            printf("%c", screen->pixels[i * width + j].texture); 
         }
         printf("\n");
     }
