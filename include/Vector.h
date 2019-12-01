@@ -8,7 +8,7 @@ struct _vector {
 
 typedef struct _vector Vector;
 
-typedef Vector *Vector_t;
+typedef Vector Vector_t;
 
 // -------------
 //  Vector Creation
@@ -32,6 +32,10 @@ float dot_product(Vector_t vector_a, Vector_t vector_b);
 // -------------
 //  Vector Utility
 // -------------
+
+float get_vector_x(Vector_t vector);
+float get_vector_y(Vector_t vector);
+float get_vector_z(Vector_t vector);
 
 void delete_vector(Vector_t vector);
 void print_vector(Vector_t vector);

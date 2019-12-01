@@ -5,6 +5,8 @@
 #include "Scene.h"
 #include "Rasterizer.h"
 
+#include <stdio.h>
+
 int main(void)
 {
     Vector_t vector = create_new_vector(63, 34, 1);
@@ -15,7 +17,9 @@ int main(void)
     Vector_t cross = cross_product(a, b);
     print_vector(cross);
 
-    Triangle_t triangle = create_new_triangle(40, 5, 15, 30, 45, 25);
+    Triangle_t triangle = create_new_triangle(40, 5, 0,
+                                              15, 30, 0,
+                                              45, 25, 0);
 
     Screen_t screen = create_new_screen(80, 40);
     Scene_t scene = create_new_scene();
@@ -28,7 +32,8 @@ int main(void)
 
     for (int i = 0; i < 200; i++) {
         printf("\033[41A");
-        rotate_triangle_y(triangle, 0.1 * i);
+        set_triangle_rotation(triangle, create_new_vector(0.1 * i, 0.05 * i, 0));
+        apply_triangle_rotation(triangle);
         usleep(50000);
         clean_screen(screen);
 
@@ -38,9 +43,7 @@ int main(void)
         print_screen(screen);
     }
 
-    delete_vector(vector);
     delete_triangle(triangle);
-    delete_vector(a); delete_vector(b); delete_vector(cross);
     delete_screen(screen);
     delete_scene(scene);
 

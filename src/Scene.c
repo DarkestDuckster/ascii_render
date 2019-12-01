@@ -67,7 +67,6 @@ get_vector_render(Scene_t scene, int x, int y)
             return object_i.material;
     }
 
-    delete_vector(vector);
     return ' ';
 }
 

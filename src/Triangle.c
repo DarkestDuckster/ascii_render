@@ -3,56 +3,72 @@
 #include <math.h>
 
 Triangle_t
-create_new_triangle(int A_x, int A_y,
-                    int B_x, int B_y,
-                    int C_x, int C_y)
+create_new_triangle(float A_x, float A_y, float A_z,
+                    float B_x, float B_y, float B_z,
+                    float C_x, float C_y, float C_z)
 {
-
     Triangle *new_triangle = malloc(sizeof(Triangle));
 
-    new_triangle->A = create_new_vector(A_x, A_y, 1);
-    new_triangle->B = create_new_vector(B_x, B_y, 1);
-    new_triangle->C = create_new_vector(C_x, C_y, 1);
+    float center_x = (A_x + B_x + C_x) / 3.f;
+    float center_y = (A_y + B_y + C_y) / 3.f;
+    float center_z = (A_z + B_z + C_z) / 3.f;
 
-    new_triangle->_A = create_new_vector(A_x, A_y, 1);
-    new_triangle->_B = create_new_vector(B_x, B_y, 1);
-    new_triangle->_C = create_new_vector(C_x, C_y, 1);
+    new_triangle->center = create_new_vector(center_x, center_y, center_z);
+
+    new_triangle->A = create_new_vector(A_x, A_y, A_z);
+    new_triangle->B = create_new_vector(B_x, B_y, B_z);
+    new_triangle->C = create_new_vector(C_x, C_y, C_z);
+
+    new_triangle->A_offset = sub_vectors(new_triangle->A, new_triangle->center);
+    new_triangle->B_offset = sub_vectors(new_triangle->B, new_triangle->center);
+    new_triangle->C_offset = sub_vectors(new_triangle->C, new_triangle->center);
+
+    new_triangle->translation = create_zero_vector();
+    new_triangle->rotation = create_zero_vector();
+    new_triangle->scale = create_zero_vector();
+
 
     return new_triangle;
 
 }
 
 void
-vector_rotate_y(Vector_t vector, float rotation_amount)
+set_triangle_translation(Triangle_t triangle, Vector_t translation)
 {
-    vector->x = vector->x * cos(rotation_amount) + vector->y * sin(rotation_amount);
-    vector->z = vector->x * -sin(rotation_amount) + vector->y * cos(rotation_amount);
+  triangle->translation = translation;
 }
 
 void
-set_vector_rotate_y(Vector_t vector_out, Vector_t vector_in, float rotation_amount)
+set_triangle_rotation(Triangle_t triangle, Vector_t rotation)
 {
-    vector_out->x = vector_in->x;
-    vector_out->y = vector_in->y;
-    vector_out->z = vector_in->z;
-    vector_rotate_y(vector_out, rotation_amount);
+  triangle->rotation = rotation;
 }
 
 void
-rotate_triangle_y(Triangle_t triangle, float rotation_amount)
+set_triangle_scale(Triangle_t triangle, Vector_t scale)
 {
-    vector_rotate_y(triangle->A, rotation_amount);
-    vector_rotate_y(triangle->B, rotation_amount);
-    vector_rotate_y(triangle->C, rotation_amount);
-    set_vector_rotate_y(triangle->A, triangle->_A, rotation_amount);
-    set_vector_rotate_y(triangle->B, triangle->_B, rotation_amount);
-    set_vector_rotate_y(triangle->C, triangle->_C, rotation_amount);
-
+  triangle->scale = scale;
 }
+
+
+void
+apply_triangle_rotation(Triangle_t triangle)
+{
+    Vector_t rotation = triangle->rotation;
+    Vector_t center = triangle->center;
+    triangle->A.x = cos(rotation.x) * triangle->A_offset.x + center.x;
+    triangle->B.x = cos(rotation.x) * triangle->B_offset.x + center.x;
+    triangle->C.x = cos(rotation.x) * triangle->C_offset.x + center.x;
+
+    triangle->A.y = cos(rotation.y) * triangle->A_offset.y + center.y;
+    triangle->B.y = cos(rotation.y) * triangle->B_offset.y + center.y;
+    triangle->C.y = cos(rotation.y) * triangle->C_offset.y + center.y;
+}
+
 
 int sign_2d_vector (Vector_t p1, Vector_t p2, Vector_t p3)
 {
-    return (p1->x - p3->x) * (p2->y - p3->y) - (p2->x - p3->x) * (p1->y - p3->y);
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 }
 
 // SignedVolume(a,b,c,d) = (1/6)*dot(cross(b-a,c-a),d-a)
@@ -65,10 +81,6 @@ float signed_tetrahedron_volume(Vector_t p1, Vector_t p2, Vector_t p3, Vector_t 
 
     float volume = dot_product(cross, p4_sub_p1) / 6;
 
-    delete_vector(p2_sub_p1);
-    delete_vector(p3_sub_p1);
-    delete_vector(p4_sub_p1);
-    delete_vector(cross);
     return volume;
 
 }
@@ -97,8 +109,5 @@ is_vector_in_triangle(Vector_t vector, Triangle_t triangle)
 void
 delete_triangle(Triangle_t triangle)
 {
-    delete_vector(triangle->A);
-    delete_vector(triangle->B);
-    delete_vector(triangle->C);
     free(triangle);
 }

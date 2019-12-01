@@ -7,11 +7,10 @@ const char TRIANGLE_CHAR = 'T';
 void
 add_vector_to_screen(Screen_t screen, Vector_t vector)
 {
-    int vector_x = vector->x, vector_y = vector->y;
     int width = screen->width, height = screen->height;
 
     Pixel *screen_pixels = screen->pixels;
-    screen_pixels[vector_y * width + vector_x].texture = POINT_CHAR;
+    screen_pixels[(int) vector.y * width + (int) vector.x].texture = POINT_CHAR;
 }
 
 void
@@ -25,13 +24,12 @@ add_triangle_to_screen(Screen_t screen, Triangle_t triangle)
     for(int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
 
-            vector->x = i; vector->y = j;
+            vector.x = i; vector.y = j;
             if (is_vector_in_triangle(vector, triangle))
                 screen_pixels[j * width + i].texture = TRIANGLE_CHAR;
 
         }
     }
-    delete_vector(vector);
 }
 
 void
