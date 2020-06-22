@@ -1,41 +1,40 @@
 #pragma once
 
-struct _vector {
+struct Vector_t {
     float x;
     float y;
     float z;
 };
 
-typedef struct _vector Vector;
-
-typedef Vector Vector_t;
+typedef struct Vector_t Vector;
 
 // -------------
 //  Vector Creation
 // -------------
 
-Vector_t create_zero_vector(void);
-Vector_t create_new_vector(float x, float y, float z);
+Vector create_zero_vector(void);
+Vector create_vector1(float x);
+Vector create_vector2(float x, float y);
+Vector create_vector3(float x, float y, float z);
 
 // -------------
 //  Vector Math
 // -------------
 
-Vector_t add_vectors(Vector_t vector_a, Vector_t vector_b);
-Vector_t sub_vectors(Vector_t vector_a, Vector_t vector_b);
+Vector add_vectors(Vector vector_a, Vector vector_b);
+Vector sub_vectors(Vector vector_a, Vector vector_b);
 
-Vector_t cross_product(Vector_t vector_a, Vector_t vector_b);
+Vector cross_product(Vector vector_a, Vector vector_b);
 
-float dot_product(Vector_t vector_a, Vector_t vector_b);
+float dot_product(Vector vector_a, Vector vector_b);
 
 
 // -------------
 //  Vector Utility
 // -------------
 
-float get_vector_x(Vector_t vector);
-float get_vector_y(Vector_t vector);
-float get_vector_z(Vector_t vector);
+float get_vector_x(Vector vector);
+float get_vector_y(Vector vector);
+float get_vector_z(Vector vector);
 
-void delete_vector(Vector_t vector);
-void print_vector(Vector_t vector);
+void print_vector(Vector vector);

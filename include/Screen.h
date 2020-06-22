@@ -1,22 +1,20 @@
 #pragma once
 
 typedef struct _pixel {
-    float r, g, b;
-    char texture;
+    char tex;
 } Pixel;
 
 typedef struct _screen {
     int width;
     int height;
     Pixel *pixels;
-} Screen;
+} Screen_t;
 
-typedef Screen *Screen_t;
+typedef Screen_t *Screen;
 
-Screen_t create_new_screen(int width, int height);
+Screen create_screen(int width, int height);
 
+void clean_screen(Screen screen);
+void delete_screen(Screen screen);
 
-void clean_screen(Screen_t screen);
-void delete_screen(Screen_t screen);
-void print_screen(Screen_t screen);
-
+void print_screen(Screen screen);

@@ -1,51 +1,41 @@
 #include <unistd.h>
-#include "Vector.h"
-#include "Screen.h"
-#include "Triangle.h"
-#include "Scene.h"
-#include "Rasterizer.h"
-
 #include <stdio.h>
+
+#include "screen.h"
+#include "box.h"
+#include "region.h"
+#include "border.h"
+#include "renderable.h"
+#include "selectable.h"
+#include "textbox.h"
 
 int main(void)
 {
-    Vector_t vector = create_new_vector(63, 34, 1);
-    print_vector(vector);
 
-    Vector_t a = create_new_vector(1, 2, 3);
-    Vector_t b = create_new_vector(4, 5, 6);
-    Vector_t cross = cross_product(a, b);
-    print_vector(cross);
+    Screen screen = create_screen(120, 40);
 
-    Triangle_t triangle = create_new_triangle(40, 5, 0,
-                                              15, 30, 0,
-                                              45, 25, 0);
+    Region region = create_region((Vector) {0, 0},
+                                  (Vector) {120, 40});
+    Region region2 = create_region((Vector) {20, 20},
+                                  (Vector) {40, 10});
+    Renderable border = (Renderable) create_border();
+    Renderable border2 = (Renderable) create_border();
 
-    Screen_t screen = create_new_screen(80, 40);
-    Scene_t scene = create_new_scene();
-    add_triangle_to_scene(scene, triangle);
-
-    render_scene_onto_screen(scene, screen);
-    add_sceen_border(screen);
+    add_renderable_to_region(region, (Renderable) border);
+    add_renderable_to_region(region, (Renderable) region2);
+    add_renderable_to_region(region2, (Renderable) border2);
 
     print_screen(screen);
+    render_unto_screen((Renderable) region, screen);
+    sleep(1);
+    print_screen(screen);
+    
+    select_renderable((Selectable) border2);
+    render_unto_screen((Renderable) region, screen);
+    sleep(1);
+    print_screen(screen);
 
-    for (int i = 0; i < 200; i++) {
-        printf("\033[41A");
-        set_triangle_rotation(triangle, create_new_vector(0.1 * i, 0.05 * i, 0));
-        apply_triangle_rotation(triangle);
-        usleep(50000);
-        clean_screen(screen);
-
-        render_scene_onto_screen(scene, screen);
-        add_sceen_border(screen);
-
-        print_screen(screen);
-    }
-
-    delete_triangle(triangle);
+    delete_renderable((Renderable) region);
     delete_screen(screen);
-    delete_scene(scene);
-
     return 0;
 }

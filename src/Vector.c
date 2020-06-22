@@ -1,4 +1,4 @@
-#include "Vector.h"
+#include "vector.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,14 +6,34 @@
 //  Vector Creation
 // -------------
 
-Vector_t
+Vector
 create_zero_vector(void)
 {
-    return create_new_vector(0, 0, 0);
+    return create_vector3(0, 0, 0);
 }
 
-Vector_t
-create_new_vector(float x, float y, float z)
+Vector
+create_vector1(float x)
+{
+    Vector new_vector;
+    new_vector.x = x;
+    new_vector.y = 0;
+    new_vector.z = 0;
+    return new_vector;
+}
+
+Vector
+create_vector2(float x, float y)
+{
+    Vector new_vector;
+    new_vector.x = x;
+    new_vector.y = y;
+    new_vector.z = 0;
+    return new_vector;
+}
+
+Vector
+create_vector3(float x, float y, float z)
 {
     Vector new_vector;
     new_vector.x = x;
@@ -26,28 +46,28 @@ create_new_vector(float x, float y, float z)
 //  Vector Math
 // -------------
 
-Vector_t
-add_vectors(Vector_t vector_a, Vector_t vector_b)
+Vector
+add_vectors(Vector vector_a, Vector vector_b)
 {
     float new_x = vector_a.x + vector_b.x;
     float new_y = vector_a.y + vector_b.y;
     float new_z = vector_a.z + vector_b.z;
-    return create_new_vector(new_x, new_y, new_z);
+    return create_vector3(new_x, new_y, new_z);
 }
 
-Vector_t
-sub_vectors(Vector_t vector_a, Vector_t vector_b)
+Vector
+sub_vectors(Vector vector_a, Vector vector_b)
 {
     float new_x = vector_a.x - vector_b.x;
     float new_y = vector_a.y - vector_b.y;
     float new_z = vector_a.z - vector_b.z;
-    return create_new_vector(new_x, new_y, new_z);
+    return create_vector3(new_x, new_y, new_z);
 }
 
-Vector_t
-cross_product(Vector_t vector_a, Vector_t vector_b)
+Vector
+cross_product(Vector vector_a, Vector vector_b)
 {
-    Vector_t return_vector = create_zero_vector();
+    Vector return_vector = create_zero_vector();
 
     return_vector.x = vector_a.y * vector_b.z - vector_a.z * vector_b.y;
     return_vector.y = vector_a.z * vector_b.x - vector_a.x * vector_b.z;
@@ -57,7 +77,7 @@ cross_product(Vector_t vector_a, Vector_t vector_b)
 }
 
 float
-dot_product(Vector_t vector_a, Vector_t vector_b)
+dot_product(Vector vector_a, Vector vector_b)
 {
     float dot_value = 0.f;
 
@@ -73,7 +93,7 @@ dot_product(Vector_t vector_a, Vector_t vector_b)
 // -------------
 
 void
-print_vector(Vector_t vector)
+print_vector(Vector vector)
 {
     printf("Vector{x:%03f, y:%03f, z:%03f}\n", vector.x, vector.y, vector.z);
 }

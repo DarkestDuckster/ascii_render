@@ -7,14 +7,14 @@ SRCDIR=src
 ODIR=obj
 LDIR =../lib
 
-EXE = Renderer.exe
+EXE = renderer.exe
 
 LIBS= -lm
 
 _DEPS = Vector.h Screen.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = Vector.o Screen.o Rasterizer.o Triangle.o Scene.o
+_OBJ = screen.o vector.o box.o renderable.o region.o border.o textbox.o selectable.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
