@@ -18,3 +18,10 @@ select_renderable(Selectable selectable)
     if (base->function_base->select_function != 0)
         base->function_base->select_function(selectable);
 }
+
+void
+delete_selectable(Selectable selectable)
+{
+    Selectable base = GET_SELECTABLE(selectable);
+    free(base);
+}

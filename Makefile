@@ -1,6 +1,7 @@
 IDIR =include
 CC=gcc
 CFLAGS=-I$(IDIR)
+OPTS = -Wall -Wextra -pedantic
 
 SRCDIR=src
 
@@ -9,12 +10,12 @@ LDIR =../lib
 
 EXE = renderer.exe
 
-LIBS= -lm
+LIBS= -lm -lcurses
 
 _DEPS = Vector.h Screen.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = screen.o vector.o box.o renderable.o region.o border.o textbox.o selectable.o
+_OBJ = screen.o vector.o renderable.o region.o border.o selectable.o intersectable.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
@@ -22,8 +23,8 @@ $(ODIR)/%.o: $(SRCDIR)/%.c $(IDIR)/%.h
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ) $(SRCDIR)/main.c
-	$(CC) -c -o $(ODIR)/main.o $(SRCDIR)/main.c $(CFLAGS)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+	$(CC) -c -o $(ODIR)/main.o $(SRCDIR)/main.c $(CFLAGS) $(OPTS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) $(OPTS)
 
 .PHONY: clean
 

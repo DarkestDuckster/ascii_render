@@ -1,51 +1,42 @@
-#include "Rasterizer.h"
+#include <stdlib.h>
 
-const char BORDER_CHAR = '#';
-const char POINT_CHAR = 'P';
-const char TRIANGLE_CHAR = 'T';
+#include "rasterizer.h"
+
+typedef struct _rasterizer {
+    RENDER_BASE;
+    int num_objects;
+    int object_arr_size;
+    void **objects;
+} Rasterizer_t;
 
 void
-add_vector_to_screen(Screen_t screen, Vector_t vector)
+add_object_to_rasterizer(Rasterizer rasterizer, Intersectable intersectable)
 {
-    int width = screen->width, height = screen->height;
+    if (rasterizer->object_arr_size == 0) {
+        rasterizer->object_arr_size = 1;
+        rasterizer->objects = malloc(sizeof(*(rasterizer->objects)));
+    }
 
-    Pixel *screen_pixels = screen->pixels;
-    screen_pixels[(int) vector.y * width + (int) vector.x].texture = POINT_CHAR;
+    if (rasterizer->num_objects >= rasterizer->object_arr_size) {
+        rasterizer->object_arr_size = rasterizer->object_arr_size * 2;
+        rasterizer->objects = realloc(rasterizer->objects,
+                                      sizeof(*(rasterizer->objects)) * rasterizer->object_arr_size);
+    }
+
+    rasterizer->objects[rasterizer->num_objects] = (void*) intersectable;
+    rasterizer->num_objects += 1;
 }
 
 void
-add_triangle_to_screen(Screen_t screen, Triangle_t triangle)
+render_rasterizer_on_screen(Rasterizer rasterizer, Screen screen)
 {
-
-    Vector_t vector = create_new_vector(0, 0, 0);
-    int width = screen->width, height = screen->height;
-
-    Pixel *screen_pixels = screen->pixels;
-    for(int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-
-            vector.x = i; vector.y = j;
-            if (is_vector_in_triangle(vector, triangle))
-                screen_pixels[j * width + i].texture = TRIANGLE_CHAR;
-
-        }
-    }
+    int width = get_screen_width(screen);
+    int height = get_screen_height(screen);
+    
 }
 
 void
-add_sceen_border(Screen_t screen)
+delete_rasterizer(Rasterizer rasterizer)
 {
-    int width = screen->width;
-    int height = screen->height;
 
-    Pixel *screen_array = screen->pixels;
-
-    for (int i = 0; i < width; i++) {
-        screen_array[i].texture = BORDER_CHAR;
-        screen_array[(height - 1) * width + i].texture = BORDER_CHAR;
-    }
-    for (int i = 1; i < height-1; i++) {
-        screen_array[i * width].texture = BORDER_CHAR;
-        screen_array[i * width + width-1].texture = BORDER_CHAR;
-    }
 }

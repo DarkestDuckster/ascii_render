@@ -4,6 +4,43 @@
 
 const char CLEAR_CHAR = ' ';
 
+typedef struct _pixel {
+    char tex;
+} Pixel;
+
+typedef struct _screen {
+    int width;
+    int height;
+    Pixel *pixels;
+} Screen_t;
+
+
+int
+get_screen_width(Screen screen)
+{
+    return screen->width;
+}
+
+int
+get_screen_height(Screen screen)
+{
+    return screen->height;
+}
+
+void
+set_screen_pixel(Screen screen, int x, int y, char pixel_value)
+{
+    int width = get_screen_width(screen);
+    screen->pixels[y * width + x].tex = pixel_value;
+}
+
+char
+get_screen_pixel(Screen screen, int x, int y)
+{
+    int width = get_screen_width(screen);
+    return screen->pixels[y * width + x].tex;
+}
+
 Screen
 create_screen(int width, int height)
 {
@@ -89,3 +126,5 @@ print_screen(Screen screen)
     printf("-/\n");
     #endif
 }
+
+

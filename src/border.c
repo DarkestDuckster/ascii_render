@@ -10,9 +10,6 @@ typedef struct _border {
     char selected_border;
 } Border_t;
 
-void render_border_on_screen(Border border, Screen screen);
-void delete_border(Border border);
-
 DECLARE_SELECTABLE_FUNCTIONS(BORDER, render_border_on_screen, delete_border, NULL, NULL);
 
 Border create_border(void)
@@ -29,9 +26,8 @@ Border create_border(void)
 void
 render_border_on_screen(Border border, Screen screen)
 {    
-    int width = screen->width;
-    int height = screen->height;
-    Pixel *pixels = screen->pixels;
+    int width = get_screen_width(screen);
+    int height = get_screen_height(screen);
 
     int selected = get_selected((Selectable) border);
     char horizontal_border, vertical_border;
@@ -45,21 +41,24 @@ render_border_on_screen(Border border, Screen screen)
     }
     
     for (int i = 0; i < width; i++) {
-        pixels[i].tex = horizontal_border;
-        pixels[(height - 1) * width + i].tex = horizontal_border;
+        set_screen_pixel(screen, i, 0, horizontal_border);
+        set_screen_pixel(screen, i, height - 1, horizontal_border);
     }
     for (int i = 0; i < height; i++) {
-        pixels[i * width].tex = vertical_border;
-        pixels[i * width + width - 1].tex = vertical_border;
+        set_screen_pixel(screen, 0, i, vertical_border);
+        set_screen_pixel(screen, width - 1, i, vertical_border);
     }
-    pixels[0].tex = '#';
-    pixels[width - 1].tex = '#';
-    pixels[(height - 1) * width].tex = '#';
-    pixels[(height - 1) * width + width - 1].tex = '#';
+
+    char corner = '#';
+    set_screen_pixel(screen, 0, 0, corner);
+    set_screen_pixel(screen, width - 1, 0, corner);
+    set_screen_pixel(screen, 0, height - 1, corner);
+    set_screen_pixel(screen, width - 1, height - 1, corner);
 }
 
 void
 delete_border(Border border)
 {
+    delete_selectable((Selectable) border);
     free(border);
 }

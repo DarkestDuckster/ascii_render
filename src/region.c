@@ -11,9 +11,6 @@ typedef struct _region {
 } Region_t;
 
 
-void render_region_on_screen(Region region, Screen screen);
-void delete_region(Region region);
-
 DECLARE_RENDER_FUNCTIONS(REGION, render_region_on_screen, delete_region);
 
 Region
@@ -52,13 +49,17 @@ render_region_on_screen(Region region, Screen screen)
         render_unto_screen(region->contained_objects[i], temp_screen);
     }
 
-    for (int i = 0; i < region->size.x && i + region->pos.x < screen->width; i++) {
-        for (int j = 0; j < region->size.y && j + region->pos.y < screen->height; j++) {
+    int scwidth = get_screen_width(screen);
+    int scheight = get_screen_height(screen);
 
-            screen->pixels[(int) ((j + region->pos.y) * screen->width \
-                           + i \
-                           + region->pos.x)].tex = temp_screen->pixels[(int) (j * region->size.x + i)].tex;
+    for (int i = 0; i < region->size.x && i + region->pos.x < scwidth; i++) {
+        for (int j = 0; j < region->size.y && j + region->pos.y < scheight; j++) {
 
+            char pix = get_screen_pixel(temp_screen, i, j);
+            set_screen_pixel(screen,
+                             i + region->pos.x,
+                             j + region->pos.y,
+                             pix);
         }
     }
 

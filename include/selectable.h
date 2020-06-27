@@ -21,14 +21,10 @@ typedef struct _selectable {
 typedef Selectable_t *Selectable;
 
 #define SELECTABLE_BASE \
-RENDER_BASE; \
-Selectable selectable_base; \
-
-#define SELECTABLE_BASE_STRUCT(child) \
-RENDER_BASE_STRUCT( \
-    SELECTABLE_BASE; \
-    child \
-)
+struct { \
+    RENDER_BASE; \
+    Selectable selectable_base; \
+}
 
 #define DECLARE_SELECTABLE_FUNCTIONS(name, \
                                      child_render_function, \
@@ -45,14 +41,10 @@ new_object->selectable_base = malloc(sizeof(Selectable_t)); \
 new_object->selectable_base->function_base = &name##_SELECT_BASE; \
 new_object->selectable_base->variables.selected = 0;
 
-#define SELECT_BASE_STRUCT \
-struct { \
-    SELECTABLE_BASE \
-} 
-
 #define GET_SELECTABLE(object) \
-((SELECT_BASE_STRUCT*) object)->selectable_base
+((SELECTABLE_BASE*) object)->selectable_base
 
 
 int get_selected(Selectable selectable);
 void select_renderable(Selectable selectable);
+void delete_selectable(Selectable selectable);
