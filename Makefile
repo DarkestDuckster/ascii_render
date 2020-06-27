@@ -15,7 +15,7 @@ LIBS= -lm -lcurses
 _DEPS = Vector.h Screen.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = screen.o vector.o renderable.o region.o border.o selectable.o intersectable.o
+_OBJ = screen.o vector.o renderable.o region.o border.o selectable.o intersectable.o rasterizer.o square.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
@@ -29,4 +29,4 @@ $(EXE): $(OBJ) $(SRCDIR)/main.c
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(EXE) 
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(EXE)

@@ -67,5 +67,6 @@ delete_intersectable(Intersectable intersectable)
     variables->children_size = 0;
     variables->num_children = 0;
     free(variables->children);
+    variables->children = NULL;
     free(base);
 }

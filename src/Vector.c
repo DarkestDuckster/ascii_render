@@ -1,6 +1,7 @@
-#include "vector.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include <math.h>
+
+#include "vector.h"
 
 // -------------
 //  Vector Creation
@@ -42,6 +43,12 @@ create_vector3(float x, float y, float z)
     return new_vector;
 }
 
+Vector
+copy_vector(Vector vector)
+{
+    return create_vector3(vector.x, vector.y, vector.z);
+}
+
 // -------------
 //  Vector Math
 // -------------
@@ -64,6 +71,23 @@ sub_vectors(Vector vector_a, Vector vector_b)
     return create_vector3(new_x, new_y, new_z);
 }
 
+
+Vector
+normalized_vector(Vector vector)
+{
+    Vector return_vector = create_zero_vector();
+    float x = vector.x;
+    float y = vector.y;
+    float z = vector.z;
+    
+    float size = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+    return_vector.x = x / size;
+    return_vector.y = y / size;
+    return_vector.z = z / size;
+
+    return return_vector;
+}
+
 Vector
 cross_product(Vector vector_a, Vector vector_b)
 {
@@ -74,6 +98,17 @@ cross_product(Vector vector_a, Vector vector_b)
     return_vector.z = vector_a.x * vector_b.y - vector_a.y * vector_b.x;
 
     return return_vector;
+}
+
+float
+vector_size(Vector vector)
+{
+    float x = vector.x;
+    float y = vector.y;
+    float z = vector.z;
+
+    float size = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+    return size;
 }
 
 float

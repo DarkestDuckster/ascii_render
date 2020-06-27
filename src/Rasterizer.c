@@ -9,6 +9,19 @@ typedef struct _rasterizer {
     void **objects;
 } Rasterizer_t;
 
+DECLARE_RENDER_FUNCTIONS(RASTERIZER, render_rasterizer_on_screen, delete_rasterizer);
+
+Rasterizer
+create_rasterizer(void)
+{
+    Rasterizer_t *new_rasterizer = malloc(sizeof(Rasterizer_t));
+    INIT_RENDER_BASE(RASTERIZER, new_rasterizer);
+    new_rasterizer->num_objects = 0;
+    new_rasterizer->object_arr_size = 0;
+    new_rasterizer->objects = NULL;
+    return new_rasterizer;
+}
+
 void
 add_object_to_rasterizer(Rasterizer rasterizer, Intersectable intersectable)
 {
@@ -32,11 +45,24 @@ render_rasterizer_on_screen(Rasterizer rasterizer, Screen screen)
 {
     int width = get_screen_width(screen);
     int height = get_screen_height(screen);
-    
+    int num_objects = rasterizer->num_objects;
+    void **objects = rasterizer->objects;
+
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            Vector origin = {x, y, 1};
+            Vector direction = {0, 0, -1};
+            for (int i = 0; i < num_objects; i++) {
+                if (get_intersection(objects[i], origin, direction))
+                    set_screen_pixel(screen, x, y, '*');
+            }
+        }
+    }
 }
 
 void
 delete_rasterizer(Rasterizer rasterizer)
 {
-
+    if (rasterizer->objects != NULL) free(rasterizer->objects);
+    free(rasterizer);    
 }

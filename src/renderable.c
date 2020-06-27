@@ -42,6 +42,5 @@ delete_renderable(Renderable renderable)
     Renderable base = GET_RENDERABLE(renderable);
     DeleteFunction_t delete_function = get_delete_function(base);
     void *object = get_object(renderable);
-    
     delete_function(object);
 }

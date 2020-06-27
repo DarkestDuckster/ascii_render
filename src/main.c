@@ -10,6 +10,8 @@
 #include "renderable.h"
 #include "selectable.h"
 #include "textbox.h"
+#include "rasterizer.h"
+#include "square.h"
 
 
 /**
@@ -26,9 +28,41 @@
  *
  **/
 
+void vector_test(void);
+void render_test(void);
+
 int main(void)
 {
+    vector_test();
+    return 0;
+}
 
+void
+vector_test(void)
+{
+    Screen screen = create_screen(120, 40);
+    Region region = create_region((Vector) {0, 0, 0},
+                                  (Vector) {120, 40, 0});
+    Rasterizer rasterizer = create_rasterizer();
+    Square square = create_square((Vector) {20, 20, 0},
+                                  (Vector) {30, 30, 0});
+    Renderable border = (Renderable) create_border();
+
+    add_object_to_rasterizer(rasterizer, (Intersectable) square);
+
+    add_renderable_to_region(region, (Renderable) rasterizer);
+    add_renderable_to_region(region, (Renderable) border);
+    print_screen(screen);
+    render_unto_screen((Renderable) region, screen);
+    print_screen(screen);
+
+    delete_renderable((Renderable) region);
+    delete_screen(screen);
+}
+
+void
+render_test(void)
+{
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
@@ -58,5 +92,4 @@ int main(void)
 
     delete_renderable((Renderable) region);
     delete_screen(screen);
-    return 0;
 }
