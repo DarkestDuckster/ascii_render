@@ -3,19 +3,19 @@
 #include "square.h"
 
 typedef struct _square {
-    INTERSECT_BASE;
+    Intersectable intersect_base;
     Vector top_right;
     Vector bot_left; 
     Vector normal;
 } Square_t;
 
-DECLARE_INTERSECT_FUNCTIONS(SQUARE, get_square_intersection);
+Intersectable_f INTERSECT_FUNCTIONS = {(IntersectFunction_t) get_square_intersection};
 
 Square
 create_square(Vector top_right, Vector bot_left)
 {
     Square_t *new_square = malloc(sizeof(Square_t));
-    INIT_INTERSECT_BASE(SQUARE, new_square);
+    new_square->intersect_base = init_intersectable(&INTERSECT_FUNCTIONS);
     new_square->top_right = top_right;
     new_square->bot_left = bot_left;
     new_square->normal = create_zero_vector();
@@ -36,5 +36,6 @@ get_square_intersection(Square square, Vector origin, Vector direction)
 void
 delete_square(Square square)
 {
+    printf("Deleting Square\n");
     free(square);
 }

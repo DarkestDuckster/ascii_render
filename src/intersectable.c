@@ -14,6 +14,17 @@ get_intersect_variables(Intersectable intersectable)
     return &intersectable->variables;
 }
 
+Intersectable
+init_intersectable(Intersectable_f *function_struct)
+{
+    Intersectable_t *new_intersectable = malloc(sizeof(Intersectable_t));
+    new_intersectable->function_base = function_struct;
+    new_intersectable->variables.num_children = 0;
+    new_intersectable->variables.children_size = 0;
+    new_intersectable->variables.children = 0;
+    return new_intersectable;
+}
+
 void
 add_child_intersectable(Intersectable intersectable, Intersectable new_child)
 {

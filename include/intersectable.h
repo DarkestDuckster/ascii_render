@@ -25,18 +25,10 @@ struct { \
     Intersectable intersect_base; \
 }
 
-#define DECLARE_INTERSECT_FUNCTIONS(name, child_intersect_function) \
-Intersectable_f name##_INTERSECT_BASE = {(IntersectFunction_t) child_intersect_function}
-
-#define INIT_INTERSECT_BASE(name, new_object) \
-new_object->intersect_base = malloc(sizeof(Intersectable_t)); \
-new_object->intersect_base->function_base = &name##_INTERSECT_BASE; \
-new_object->intersect_base->variables.num_children = 0; \
-new_object->intersect_base->variables.children_size = 0; \
-new_object->intersect_base->variables.children = NULL;
-
 #define GET_INTERSECTABLE(object) \
 ((INTERSECT_BASE*) object)->intersect_base
+
+Intersectable init_intersectable(Intersectable_f *function_struct);
 
 int get_intersection(Intersectable intersectable, Vector origin, Vector direction);
 void add_child_intersectable(Intersectable intersectable, Intersectable new_child);
