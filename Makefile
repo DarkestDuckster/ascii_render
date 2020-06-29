@@ -15,7 +15,7 @@ LIBS= -lm -lcurses
 _DEPS = Vector.h Screen.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = screen.o vector.o renderable.o region.o border.o selectable.o intersectable.o rasterizer.o square.o
+_OBJ = screen.o vector.o renderable.o region.o border.o selectable.o intersectable.o rasterizer.o square.o dynamic_array.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

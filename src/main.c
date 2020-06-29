@@ -12,6 +12,7 @@
 #include "textbox.h"
 #include "rasterizer.h"
 #include "square.h"
+#include "dynamic_array.h"
 
 
 /**
@@ -28,13 +29,52 @@
  *
  **/
 
+void array_test(void);
 void vector_test(void);
 void render_test(void);
 
 int main(void)
 {
-    vector_test();
+    array_test();
     return 0;
+}
+
+void
+array_test(void)
+{
+    Screen screen = create_screen(20, 20);
+    Screen screen2 = create_screen(20, 20);
+    Screen screen3 = create_screen(20, 20);
+    printf("%p\n", screen);
+    printf("%p\n", screen2);
+
+    DynamicArray array = create_dynamic_array();
+    printf("%d\n", darr_get_array_size(array));
+
+    darr_add_object_to_array(array, screen);
+    printf("%d\n", darr_get_array_size(array));
+    printf("%p\n", darr_get_object_by_index(array, 0));
+    printf("%p\n", darr_get_object_by_index(array, 1));
+    printf("%p\n", darr_get_object_by_index(array, 2));
+
+    darr_add_object_to_array(array, screen2);
+    printf("%d\n", darr_get_array_size(array));
+    printf("%p\n", darr_get_object_by_index(array, 0));
+    printf("%p\n", darr_get_object_by_index(array, 1));
+    printf("%p\n", darr_get_object_by_index(array, 2));
+
+    darr_add_object_to_array(array, screen3);
+    printf("%d\n", darr_get_array_size(array));
+    printf("%p\n", darr_get_object_by_index(array, 0));
+    printf("%p\n", darr_get_object_by_index(array, 1));
+    printf("%p\n", darr_get_object_by_index(array, 2));
+
+    darr_remove_object_by_index(array, 0);
+    printf("%d\n", darr_get_array_size(array));
+    printf("%p\n", darr_get_object_by_index(array, 0));
+    printf("%p\n", darr_get_object_by_index(array, 1));
+    printf("%p\n", darr_get_object_by_index(array, 2));
+    
 }
 
 void
