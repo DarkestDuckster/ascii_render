@@ -35,7 +35,7 @@ void render_test(void);
 
 int main(void)
 {
-    array_test();
+    render_test();
     return 0;
 }
 

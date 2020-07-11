@@ -89,6 +89,16 @@ normalized_vector(Vector vector)
 }
 
 Vector
+scale_vector(Vector vector, float scale)
+{
+    Vector ret = copy_vector(vector);
+    ret.x *= scale;
+    ret.y *= scale;
+    ret.z *= scale;
+    return ret;
+}
+
+Vector
 cross_product(Vector vector_a, Vector vector_b)
 {
     Vector return_vector = create_zero_vector();
@@ -121,6 +131,27 @@ dot_product(Vector vector_a, Vector vector_b)
     dot_value += vector_a.z * vector_b.z;
 
     return dot_value;
+}
+
+int
+check_line_plane_intersection(Vector plane_normal, Vector line_direction)
+{
+    if (dot_product(plane_normal, normalized_vector(line_direction)) == 0.f)
+        return 0;
+    else
+        return 1;
+}
+
+Vector
+line_plane_intersection(Vector plane_point, Vector plane_normal, Vector line_point, Vector line_direction)
+{
+    if (!check_line_plane_intersection(plane_normal, line_direction)) return create_zero_vector();
+
+    float t = (dot_product(plane_normal, plane_point) - dot_product(plane_normal, line_point));
+    t = t / dot_product(plane_normal, normalized_vector(line_direction));
+
+    Vector intersection = add_vectors(line_point, scale_vector(normalized_vector(line_direction), t));
+    return intersection;
 }
 
 // -------------
