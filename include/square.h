@@ -6,7 +6,7 @@
 typedef struct _square Square_t;
 typedef Square_t *Square;
 
-Square create_square(Vector top_right, Vector bot_left);
+Square create_square(Vector top_left, Vector bot_right);
 
 int get_square_intersection(Square square, Vector origin, Vector direction);
 

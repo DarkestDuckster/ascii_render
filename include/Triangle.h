@@ -1,5 +1,13 @@
 #pragma once
-#include "Vector.h"
+
+#include "vector.h"
+#include "intersectable.h"
+
+typedef struct Triangle_t *Triangle;
+
+Triangle create_triangle(Vector pA,
+                         Vector pB,
+                         Vector pC);
 
 typedef struct _triangle {
     // Actual location of points

@@ -16,3 +16,5 @@ Intersectable init_intersectable(Intersectable_f *function_struct);
 int get_intersection(Intersectable intersectable, Vector origin, Vector direction);
 void add_child_intersectable(Intersectable intersectable, Intersectable new_child);
 void delete_intersectable(Intersectable intersectable);
+
+void rotate(Intersectable intersectable, Vector rotation);

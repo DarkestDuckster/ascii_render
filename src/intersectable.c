@@ -3,6 +3,7 @@
 #include "intersectable.h"
 
 typedef struct _intersect_vars {
+    Vector rotation;
     int num_children;
     int children_size;
     void **children;
@@ -40,6 +41,7 @@ init_intersectable(Intersectable_f *function_struct)
 {
     Intersectable_t *new_intersectable = malloc(sizeof(Intersectable_t));
     new_intersectable->function_base = function_struct;
+    new_intersectable->variables.rotation = create_zero_vector();
     new_intersectable->variables.num_children = 0;
     new_intersectable->variables.children_size = 0;
     new_intersectable->variables.children = 0;
@@ -101,4 +103,11 @@ delete_intersectable(Intersectable intersectable)
     free(variables->children);
     variables->children = NULL;
     free(base);
+}
+
+
+void
+rotate(Intersectable intersectable, Vector rotation)
+{
+    
 }

@@ -31,6 +31,8 @@ Vector normalized_vector(Vector vector);
 float vector_size(Vector vector);
 float dot_product(Vector vector_a, Vector vector_b);
 
+Vector line_plane_intersection(Vector plane_point, Vector plane_normal, Vector line_point, Vector line_direction);
+
 
 // -------------
 //  Vector Utility
